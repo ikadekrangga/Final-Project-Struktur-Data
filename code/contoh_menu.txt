@@ -5,9 +5,11 @@ printf("Peminjaman")
     printf("pilih buku")
 
 printf("Pengembalian")
+    printf("buku yang ingin dikembalikan")
 
 printf("Riwayat")
     printf("buku yang ingin dicek:")
 
+printf("Keluar")
 
 
