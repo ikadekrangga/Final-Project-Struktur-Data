@@ -8,7 +8,7 @@
 * Single Linked List (cari buku)
    * FAJAR RAHMAD JAYA
 * Queue
-   * CAEZARLOV NUGRAHA (pengembalian)
-   * MIFTAHUS SYIFAUL HAQQI (peminjaman)
+   * CAEZARLOV NUGRAHA (peminjam)
+   * MIFTAHUS SYIFAUL HAQQI (pengembalian)
 * Double linked list (riwayat)
    * SALSABILLA NUHAA AINI
