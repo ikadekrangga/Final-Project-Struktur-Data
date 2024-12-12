@@ -18,27 +18,30 @@ printf("Keluar")
 __________________________________________________________________________________
 
 cari buku   
+    tampilkan semua
+        (tampil semua)
     masukkan id buku    
         printf("%id_buku tersedia sebanyak: %stock")
 
 Peminjaman
     nama Peminjaman
         id buku yang mau dipinjam:
+            (cek %stock) (if else)
             antrian peminjaman: 
             (tambahkan user ke queue)
             printf(queue)
+            (%stock - 1)
             (balik ke menu awal)
 
 Pengembalian
     nama peminjam
-        buku yang ingin dikembalikan
+        id buku yang ingin dikembalikan
         printf("buku telah dikembalikan")
         (hapus user dari queue)
+        (%stock + 1)
 
-Riwayat
-    nama user yang ingin dicek
-        printf("nama user", tidak ada riwayat peminjaman)
-        printf("nama user", telah meminjam buku : %id_buku)
-
-    id buku yang ingin dicek
-        printf("%id_buku telah dipinjam oleh:" %antrian)
+Riwayat (double)
+        riwayat semua peminjaman
+            (%nama_user, %id_buku)
+        id buku yang ingin dicek
+            printf("%id_buku telah dipinjam oleh:" %nama_user)
