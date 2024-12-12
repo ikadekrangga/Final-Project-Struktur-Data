@@ -15,6 +15,11 @@ printf("Riwayat")
 
 printf("Keluar")
 
+__________________________________________________________________________________
+
+cari buku   
+    masukkan id buku    
+        printf("%id_buku tersedia sebanyak: %stock")
 
 Peminjaman
     nama Peminjaman
