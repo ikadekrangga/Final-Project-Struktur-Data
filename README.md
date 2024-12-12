@@ -5,12 +5,10 @@
 - C
 
 ## Pembagian Tugas
-* Single Linked List
-   * CAEZARLOV NUGRAHA
-* Double Linked List
+* Single Linked List (cari buku)
    * FAJAR RAHMAD JAYA
-   * I KADEK RANGGA SANDI KUSUMA WARDANA
-* Stack
-   * MIFTAHUS SYIFAUL HAQQI
 * Queue
+   * CAEZARLOV NUGRAHA (pengembalian)
+   * MIFTAHUS SYIFAUL HAQQI (peminjaman)
+* Double linked list (riwayat)
    * SALSABILLA NUHAA AINI
