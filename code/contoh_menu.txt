@@ -2,14 +2,38 @@ printf("Cari buku")
 
 
 printf("Peminjaman")
-    printf("pilih buku")
+    printf("nasms pemimjam
+            id buku")
+        printf("antrian")
 
 printf("Pengembalian")
-    printf("buku yang ingin dikembalikan")
+    printf("id buku yang ingin dikembalikan")
+
 
 printf("Riwayat")
-    printf("buku yang ingin dicek:")
+    printf("id buku yang ingin dicek:")
 
 printf("Keluar")
 
 
+Peminjaman
+    nama Peminjaman
+        id buku yang mau dipinjam:
+            antrian peminjaman: 
+            (tambahkan user ke queue)
+            printf(queue)
+            (balik ke menu awal)
+
+Pengembalian
+    nama peminjam
+        buku yang ingin dikembalikan
+        printf("buku telah dikembalikan")
+        (hapus user dari queue)
+
+Riwayat
+    nama user yang ingin dicek
+        printf("nama user", tidak ada riwayat peminjaman)
+        printf("nama user", telah meminjam buku : %id_buku)
+
+    id buku yang ingin dicek
+        printf("%id_buku telah dipinjam oleh:" %antrian)
