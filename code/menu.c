@@ -16,16 +16,30 @@ void option3() {
     // Add your code for option 3 here
 }
 
+void option4() {
+    printf("Option 4 selected.\n");
+    // Add your code for option 4 here
+}
+void option5() {
+    printf("Option 5 selected.\n");
+    // Add your code for option 5 here
+}
+void option6() {
+    printf("Option 6 selected.\n");
+    // Add your code for option 6 here
+}
+
 int main() {
     int choice;
 
     while (1) {
         printf("Menu:\n");
         printf("1. Cari buku\n");
-        printf("2. Pinjam buku\n");
-        printf("3. Antrian\n");
-        printf("4. Riwayat peminjaman\n");
-        printf("5. Pilih buku\n");
+        printf("2. Pilih buku\n");
+        printf("3. Pinjam buku\n");
+        printf("4. Antrian\n");
+        printf("5. riwayat\n");
+        printf("6. Kembalikan buku\n");
         printf("Press Q to Exit\n");
         printf("Enter your choice: ");
         scanf("%d", &choice);
