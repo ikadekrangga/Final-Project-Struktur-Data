@@ -1,21 +1,30 @@
 # Final Project Struktur Data
+## Kelompok 7
+Anggota Kelompok:
+- CAEZARLOV NUGRAHA
+- FAJAR RAHMAD JAYA
+- MIFTAHUS SYIFAUL HAQQI
+- SALSABILLA NUHAA AINI
+- I KADEK RANGGA SANDI KUSUMA WARDANA
 
+## Studi Kasus
+- Sistem Manajemen Peminjaman Buku di Perpustakaan
 
 ## Languages
 - C
 
 ## Pembagian Tugas
-|Single Linked List (cari buku)| Status|
+|Single Linked List (Cari Buku)| Status|
 |------------------------------|-------|
 |FAJAR RAHMAD JAYA             |[Selesai](https://github.com/CATSSRIN/Final-Project-Struktur-Data/blob/main/Check%20Data/Check%20Data.c)|
 
 |Queue| Status|
 |-----|-------|
-|CAEZARLOV NUGRAHA (peminjaman)||
+|CAEZARLOV NUGRAHA (Peminjaman)||
 |I KADEK RANGGA SANDI KUSUMA WARDANA (peminjamam)||
 |MIFTAHUS SYIFAUL HAQQI (pengembalian)||
 
-|Double linked list (riwayat)|Status|
+|Double Linked List (Riwayat Peminjaman)|Status|
 |----------------------------|------|
 |SALSABILLA NUHAA AINI       |  |
  
