@@ -10,9 +10,6 @@ Anggota Kelompok:
 ## Studi Kasus
 - Sistem Manajemen Peminjaman Buku di Perpustakaan
 
-## Languages
-- C
-
 ## Pembagian Tugas
 |Single Linked List (Cari Buku)| Status|
 |------------------------------|-------|
