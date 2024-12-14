@@ -16,7 +16,7 @@ Anggota Kelompok:
 ## Pembagian Tugas
 |Single Linked List (Cari Buku)| Status|
 |------------------------------|-------|
-|FAJAR RAHMAD JAYA             |[Selesai](https://github.com/CATSSRIN/Final-Project-Struktur-Data/blob/main/Check%20Data/Check%20Data.c)|
+|FAJAR RAHMAD JAYA             |[Selesai](https://github.com/CATSSRIN/Final-Project-Struktur-Data/blob/main/Cari%20Buku/Cari%20Buku.c)|
 
 |Queue| Status|
 |-----|-------|
