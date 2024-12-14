@@ -7,7 +7,7 @@
 ## Pembagian Tugas
 |Single Linked List (cari buku)| Status|
 |------------------------------|-------|
-|FAJAR RAHMAD JAYA             |Selesai|
+|FAJAR RAHMAD JAYA             |[Selesai](https://github.com/CATSSRIN/Final-Project-Struktur-Data/blob/main/Check%20Data/Check%20Data.c)|
 
 |Queue| Status|
 |-----|-------|
