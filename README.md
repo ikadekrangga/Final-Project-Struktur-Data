@@ -5,14 +5,19 @@
 - C
 
 ## Pembagian Tugas
-* Single Linked List (cari buku) [Selesai]
-   * FAJAR RAHMAD JAYA
-* Queue
-   * CAEZARLOV NUGRAHA (peminjaman)
-   * I KADEK RANGGA SANDI KUSUMA WARDANA (peminjamam)
-   * MIFTAHUS SYIFAUL HAQQI (pengembalian)
-* Double linked list (riwayat)
-   * SALSABILLA NUHAA AINI
+|Single Linked List (cari buku)| Status|
+|------------------------------|-------|
+|FAJAR RAHMAD JAYA             |Selesai|
+
+|Queue| Status|
+|-----|-------|
+|CAEZARLOV NUGRAHA (peminjaman)||
+|I KADEK RANGGA SANDI KUSUMA WARDANA (peminjamam)||
+|MIFTAHUS SYIFAUL HAQQI (pengembalian)||
+
+|Double linked list (riwayat)|Status|
+|----------------------------|------|
+|SALSABILLA NUHAA AINI       |  |
  
  ## Algoritma
  ```
