@@ -17,8 +17,8 @@ Anggota Kelompok:
 
 |Queue| Status|
 |-----|-------|
-|CAEZARLOV NUGRAHA (Peminjaman)||
-|I KADEK RANGGA SANDI KUSUMA WARDANA (peminjamam)||
+|CAEZARLOV NUGRAHA (Peminjaman)|[Selesai](https://github.com/CATSSRIN/Final-Project-Struktur-Data/blob/main/peminjaman/menu%20peminjaman.c)|
+|I KADEK RANGGA SANDI KUSUMA WARDANA (peminjamam)|[Selesai](https://github.com/CATSSRIN/Final-Project-Struktur-Data/blob/main/peminjaman/menu%20peminjaman.c)|
 |MIFTAHUS SYIFAUL HAQQI (pengembalian)||
 
 |Double Linked List (Riwayat Peminjaman)|Status|
