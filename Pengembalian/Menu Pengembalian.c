@@ -144,8 +144,8 @@ void freeQueue(Queue* q) {
     }
 }
 
-// Function to return a book
-void returnBook(Queue* q, Node* bookList) {
+// Function to return a book and increase its quantity
+void returnBook(Queue* q, Node* bookList, const char* idBuku) {
     if (q->front == NULL) {
         printf("No borrow records available.\n");
         return;
@@ -155,13 +155,30 @@ void returnBook(Queue* q, Node* bookList) {
     if (returnedNode) {
         Node* book = searchById(bookList, returnedNode->idBuku);
         if (book) {
-            book->jumlahBuku++;
+            book->jumlahBuku++; // Increase the book quantity
             printf("Book %s (%s) has been returned by %s.\n", returnedNode->idBuku, book->judulBuku, returnedNode->namaUser);
         } else {
             printf("Book with ID %s not found in the list.\n", returnedNode->idBuku);
         }
         free(returnedNode);
     }
+}
+
+// Function to save the updated book list back to the file
+void saveToFile(const char* filename, Node* head) {
+    FILE* file = fopen(filename, "w");
+    if (!file) {
+        fprintf(stderr, "Failed to open file: %s\n", filename);
+        return;
+    }
+
+    Node* temp = head;
+    while (temp != NULL) {
+        fprintf(file, "%s,%s,%s,%d\n", temp->idBuku, temp->judulBuku, temp->penulis, temp->jumlahBuku);
+        temp = temp->next;
+    }
+
+    fclose(file);
 }
 
 int main() {
@@ -174,15 +191,13 @@ int main() {
     readFile(filename, &bookList);
 
     int choice;
-    char namaUser[50];
     char idBuku[10];
 
     while (1) {
         printf("\nMenu:\n");
         printf("1. Show all books\n");
-        printf("2. Borrow book\n");
-        printf("3. Return book\n");
-        printf("4. Exit\n");
+        printf("2. Return book\n");
+        printf("3. Exit\n");
         printf("Enter your choice: ");
         if (scanf("%d", &choice) != 1) {
             printf("Invalid input. Please enter a number.\n");
@@ -210,30 +225,20 @@ int main() {
                 break;
             }
             case 2: {
-                // Borrow a book
-                printf("Enter your name: ");
-                scanf(" %[^\n]", namaUser);
-                printf("Enter the ID of the book to borrow: ");
+                // Return a book
+                printf("Enter the ID of the book to return: ");
                 scanf("%s", idBuku);
 
                 Node* book = searchById(bookList, idBuku);
                 if (book == NULL) {
                     printf("Book with ID %s not found.\n", idBuku);
-                } else if (book->jumlahBuku <= 0) {
-                    printf("Book %s is out of stock.\n", book->judulBuku);
                 } else {
-                    enqueue(&borrowQueue, namaUser, idBuku);
-                    book->jumlahBuku--;
-                    printf("Book %s has been borrowed by %s.\n", book->judulBuku, namaUser);
+                    returnBook(&borrowQueue, bookList, idBuku); // Increase quantity of the returned book
+                    saveToFile(filename, bookList);  // Save the updated list back to the file
                 }
                 break;
             }
             case 3: {
-                // Return a book
-                returnBook(&borrowQueue, bookList);
-                break;
-            }
-            case 4: {
                 // Exit the program
                 printf("Exiting program. Freeing memory...\n");
                 freeQueue(&borrowQueue);
