@@ -13,17 +13,17 @@ Anggota Kelompok:
 ## Pembagian Tugas
 |Single Linked List (Cari Buku)| Status|
 |------------------------------|-------|
-|FAJAR RAHMAD JAYA             |[Selesai](https://github.com/CATSSRIN/Final-Project-Struktur-Data/blob/main/Cari%20Buku/Cari%20Buku.c)|
+|FAJAR RAHMAD JAYA             |[Selesai](https://github.com/CATSSRIN/Final-Project-Struktur-Data/blob/main/Pembagian%20Tugas/Cari%20Buku/Cari%20Buku.c)|
 
 |Queue| Status|
 |-----|-------|
-|CAEZARLOV NUGRAHA (Peminjaman)|[Selesai](https://github.com/CATSSRIN/Final-Project-Struktur-Data/blob/main/peminjaman/menu%20peminjaman.c)|
-|I KADEK RANGGA SANDI KUSUMA WARDANA (peminjamam)|[Selesai](https://github.com/CATSSRIN/Final-Project-Struktur-Data/blob/main/peminjaman/menu%20peminjaman.c)|
-|MIFTAHUS SYIFAUL HAQQI (pengembalian)||
+|CAEZARLOV NUGRAHA (Peminjaman)|[Selesai](https://github.com/CATSSRIN/Final-Project-Struktur-Data/blob/main/Pembagian%20Tugas/peminjaman/menu%20peminjaman.c)|
+|I KADEK RANGGA SANDI KUSUMA WARDANA (peminjamam)|[Selesai](https://github.com/CATSSRIN/Final-Project-Struktur-Data/blob/main/Pembagian%20Tugas/peminjaman/menu%20peminjaman.c)|
+|MIFTAHUS SYIFAUL HAQQI (pengembalian)|[Selesai](https://github.com/CATSSRIN/Final-Project-Struktur-Data/blob/main/Pembagian%20Tugas/Pengembalian/Menu%20Pengembalian.c)|
 
 |Double Linked List (Riwayat Peminjaman)|Status|
 |----------------------------|------|
-|SALSABILLA NUHAA AINI       |  |
+|SALSABILLA NUHAA AINI       |[Selesai](https://github.com/CATSSRIN/Final-Project-Struktur-Data/blob/main/Pembagian%20Tugas/riwayat/riwayat%20peminjaman.c)|
  
  ## Algoritma
  ```
