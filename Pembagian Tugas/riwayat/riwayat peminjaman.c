@@ -1,12 +1,84 @@
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
 
-#define MAX_NAME_LENGTH 50
-
-// Fungsi untuk menampilkan seluruh riwayat peminjaman
-void tampilkanRiwayat()
+// Struktur untuk node dalam Doubly Linked List
+typedef struct Node
 {
-    FILE *file = fopen("user_list.csv", "r"); // Buka file untuk membaca
+    char nama_user[50];
+    char id_buku[10];
+    struct Node *next;
+    struct Node *prev;
+} Node;
+
+// Fungsi untuk menambahkan data ke dalam Doubly Linked List
+void tambahRiwayat(Node **head, Node **tail, const char *nama, const char *id)
+{
+    Node *newNode = (Node *)malloc(sizeof(Node));
+    if (!newNode)
+    {
+        printf("Gagal alokasi memori!\n");
+        return;
+    }
+
+    strcpy(newNode->nama_user, nama);
+    strcpy(newNode->id_buku, id);
+    newNode->next = NULL;
+    newNode->prev = *tail;
+
+    if (*tail != NULL)
+    {
+        (*tail)->next = newNode;
+    }
+    *tail = newNode;
+
+    if (*head == NULL)
+    {
+        *head = newNode;
+    }
+}
+
+// Fungsi untuk menampilkan seluruh riwayat peminjaman dengan format sejajar
+void tampilkanRiwayat(Node *head)
+{
+    if (head == NULL)
+    {
+        printf("Riwayat peminjaman kosong.\n");
+        return;
+    }
+
+    printf("---------------------------------------------------\n");
+    printf("Nama Pengguna                 ID Buku\n");
+    printf("---------------------------------------------------\n");
+
+    Node *current = head;
+    while (current != NULL)
+    {
+        // Menampilkan nama dan ID buku
+        printf("%-30s %-10s\n", current->nama_user, current->id_buku);
+        current = current->next;
+    }
+}
+
+// Fungsi untuk mencari ID buku berdasarkan nama pengguna
+const char *cariIDBuku(Node *head, const char *nama)
+{
+    Node *current = head;
+    while (current != NULL)
+    {
+        if (strcmp(current->nama_user, nama) == 0)
+        {
+            return current->id_buku;
+        }
+        current = current->next;
+    }
+    return NULL;
+}
+
+// Fungsi untuk memuat riwayat dari file CSV dan menyimpannya ke dalam DLL
+void loadRiwayat(Node **head, Node **tail)
+{
+    FILE *file = fopen("user_list.csv", "r");
     if (file == NULL)
     {
         printf("Gagal membuka file user_list.csv\n");
@@ -14,91 +86,81 @@ void tampilkanRiwayat()
     }
 
     char nama[50];
-    int id_buku;
+    char id_buku_temp[10];
 
-    printf("Riwayat Peminjaman:\n");
-    // Membaca setiap baris dalam file dan menampilkan data
-    while (fscanf(file, "%49[^,], %d\n", nama, &id_buku) == 2)
+    // Membaca file CSV dan menambahkan data ke DLL
+    while (fscanf(file, " %49[^,],%9s\n", nama, id_buku_temp) == 2)
     {
-        printf("Nama: %s, ID Buku: %d\n", nama, id_buku);
+        tambahRiwayat(head, tail, nama, id_buku_temp);
     }
 
-    fclose(file); // Tutup file setelah selesai membaca
+    fclose(file);
 }
 
-// Fungsi untuk mencari ID buku berdasarkan nama pengguna
-int cariIDBuku(const char *nama_user)
+// Fungsi untuk membersihkan memori DLL
+void freeList(Node *head)
 {
-    FILE *file = fopen("user_list.csv", "r"); // Buka file untuk membaca
-    if (file == NULL)
+    Node *current = head;
+    while (current != NULL)
     {
-        printf("Gagal membuka file user_list.csv\n");
-        return -1; // Return -1 jika file tidak ditemukan
+        Node *temp = current;
+        current = current->next;
+        free(temp);
     }
-
-    char nama[50];
-    int id_buku;
-    // Membaca setiap baris dalam file
-    while (fscanf(file, "%49[^,], %d\n", nama, &id_buku) == 2)
-    {
-        if (strcmp(nama, nama_user) == 0)
-        {                 // Jika nama ditemukan
-            fclose(file); // Tutup file sebelum return
-            return id_buku;
-        }
-    }
-
-    fclose(file); // Tutup file jika nama tidak ditemukan
-    return -1;    // Return -1 jika nama tidak ditemukan
 }
 
 int main()
 {
-    int pilihan;
-    char nama_user[MAX_NAME_LENGTH];
+    Node *head = NULL;
+    Node *tail = NULL;
 
-    // Menu Pilihan
-    do
+    // Memuat riwayat peminjaman dari file CSV
+    loadRiwayat(&head, &tail);
+
+    int pilihan;
+    char input_nama[50];
+    const char *id_buku_result = NULL;
+
+    while (1)
     {
-        printf("\nMenu:\n");
+        printf("\nMenu Riwayat:\n");
         printf("1. Tampilkan seluruh riwayat peminjaman\n");
         printf("2. Cari ID buku berdasarkan nama pengguna\n");
         printf("3. Keluar\n");
-        printf("Pilih menu (1-3): ");
+        printf("Masukkan pilihan (1-3): ");
         scanf("%d", &pilihan);
-        getchar(); // Mengambil karakter newline setelah input pilihan
+        getchar(); // Menghapus karakter newline dari buffer
 
         switch (pilihan)
         {
         case 1:
-            tampilkanRiwayat();
+            tampilkanRiwayat(head);
             break;
 
         case 2:
             printf("Masukkan nama pengguna untuk mencari ID buku: ");
-            fgets(nama_user, sizeof(nama_user), stdin);
-            nama_user[strcspn(nama_user, "\n")] = 0; // Menghapus newline karakter jika ada
+            fgets(input_nama, sizeof(input_nama), stdin);
+            input_nama[strcspn(input_nama, "\n")] = 0; // Menghapus newline di akhir input
+            id_buku_result = cariIDBuku(head, input_nama);
 
-            int id_buku = cariIDBuku(nama_user);
-            if (id_buku == -1)
+            if (id_buku_result == NULL)
             {
                 printf("Nama pengguna tidak ditemukan dalam riwayat peminjaman.\n");
             }
             else
             {
-                printf("ID Buku yang dipinjam oleh %s adalah: %d\n", nama_user, id_buku);
+                printf("ID Buku yang dipinjam oleh %s adalah: %s\n", input_nama, id_buku_result);
             }
             break;
 
         case 3:
-            printf("Terima kasih! Program selesai.\n");
-            break;
+            freeList(head);
+            printf("Keluar dari program.\n");
+            return 0;
 
         default:
-            printf("Pilihan tidak valid! Silakan pilih antara 1-3.\n");
+            printf("Pilihan tidak valid! Kembali ke menu utama.\n");
             break;
         }
-    } while (pilihan != 3);
-
-    return 0;
+    }
 }
