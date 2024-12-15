@@ -59,7 +59,7 @@ int main() {
     scanf("%d", &id_buku);
 
         FILE *file = fopen("user_list.csv", "a");
-    if (file == NULL) {
+        if (file == NULL) {
         printf("Error opening file!\n");
         return 1;
     }
