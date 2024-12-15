@@ -56,7 +56,7 @@ int main() {
         printf("Error opening file!\n");
         return 1;
     }
-    fprintf(file, "%s\n", nama_user);
+    fprintf(file, "%s %d\n", nama_user, id_buku);
     fclose(file);
 
     nama_user[strcspn(nama_user, "\n")] = 0; // Remove newline character
