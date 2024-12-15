@@ -1,101 +1,104 @@
 #include <stdio.h>
-#include <stdlib.h>
 #include <string.h>
 
-// Struktur untuk queue
-typedef struct Peminjam
-{
-    char nama_user[50];
-    char id_buku[20];
-    struct Peminjam *next;
-} Peminjam;
+#define MAX_NAME_LENGTH 50
 
-typedef struct
+// Fungsi untuk menampilkan seluruh riwayat peminjaman
+void tampilkanRiwayat()
 {
-    Peminjam *front;
-    Peminjam *rear;
-} Queue;
-
-// Inisialisasi queue
-void initQueue(Queue *queue)
-{
-    queue->front = NULL;
-    queue->rear = NULL;
-}
-
-// Fungsi enqueue
-void enqueue(Queue *queue, const char *nama_user, const char *id_buku)
-{
-    Peminjam *nodeBaru = (Peminjam *)malloc(sizeof(Peminjam));
-    strcpy(nodeBaru->nama_user, nama_user);
-    strcpy(nodeBaru->id_buku, id_buku);
-    nodeBaru->next = NULL;
-
-    if (queue->rear == NULL)
+    FILE *file = fopen("user_list.csv", "r"); // Buka file untuk membaca
+    if (file == NULL)
     {
-        queue->front = nodeBaru;
-        queue->rear = nodeBaru;
-    }
-    else
-    {
-        queue->rear->next = nodeBaru;
-        queue->rear = nodeBaru;
-    }
-}
-
-// Fungsi membaca data dari file CSV
-void bacaCSVKeQueue(const char *filename, Queue *queue)
-{
-    FILE *file = fopen(filename, "r");
-    if (!file)
-    {
-        perror("Gagal membuka file CSV");
+        printf("Gagal membuka file user_list.csv\n");
         return;
     }
 
-    char line[100];
-    fgets(line, sizeof(line), file); // Membaca header, abaikan
+    char nama[50];
+    int id_buku;
 
-    while (fgets(line, sizeof(line), file))
+    printf("Riwayat Peminjaman:\n");
+    // Membaca setiap baris dalam file dan menampilkan data
+    while (fscanf(file, "%49[^,], %d\n", nama, &id_buku) == 2)
     {
-        char nama_user[50], id_buku[20];
-        sscanf(line, "%49[^,],%19[^\n]", nama_user, id_buku); // Parsing CSV
-        enqueue(queue, nama_user, id_buku);
+        printf("Nama: %s, ID Buku: %d\n", nama, id_buku);
     }
 
-    fclose(file);
-    printf("Data dari file CSV berhasil dimasukkan ke dalam queue.\n");
+    fclose(file); // Tutup file setelah selesai membaca
 }
 
-// Fungsi untuk menampilkan queue
-void tampilkanQueue(Queue *queue)
+// Fungsi untuk mencari ID buku berdasarkan nama pengguna
+int cariIDBuku(const char *nama_user)
 {
-    Peminjam *current = queue->front;
-    if (current == NULL)
+    FILE *file = fopen("user_list.csv", "r"); // Buka file untuk membaca
+    if (file == NULL)
     {
-        printf("Queue kosong.\n");
-        return;
+        printf("Gagal membuka file user_list.csv\n");
+        return -1; // Return -1 jika file tidak ditemukan
     }
 
-    printf("Data dalam queue:\n");
-    while (current != NULL)
+    char nama[50];
+    int id_buku;
+    // Membaca setiap baris dalam file
+    while (fscanf(file, "%49[^,], %d\n", nama, &id_buku) == 2)
     {
-        printf("Nama User: %s, ID Buku: %s\n", current->nama_user, current->id_buku);
-        current = current->next;
+        if (strcmp(nama, nama_user) == 0)
+        {                 // Jika nama ditemukan
+            fclose(file); // Tutup file sebelum return
+            return id_buku;
+        }
     }
+
+    fclose(file); // Tutup file jika nama tidak ditemukan
+    return -1;    // Return -1 jika nama tidak ditemukan
 }
 
 int main()
 {
-    Queue queue;
-    initQueue(&queue);
+    int pilihan;
+    char nama_user[MAX_NAME_LENGTH];
 
-    // Membaca data dari CSV ke queue
-    bacaCSVKeQueue("peminjam.csv", &queue);
+    // Menu Pilihan
+    do
+    {
+        printf("\nMenu:\n");
+        printf("1. Tampilkan seluruh riwayat peminjaman\n");
+        printf("2. Cari ID buku berdasarkan nama pengguna\n");
+        printf("3. Keluar\n");
+        printf("Pilih menu (1-3): ");
+        scanf("%d", &pilihan);
+        getchar(); // Mengambil karakter newline setelah input pilihan
 
-    // Menampilkan isi queue
-    printf("\n--- Menampilkan Queue ---\n");
-    tampilkanQueue(&queue);
+        switch (pilihan)
+        {
+        case 1:
+            tampilkanRiwayat();
+            break;
+
+        case 2:
+            printf("Masukkan nama pengguna untuk mencari ID buku: ");
+            fgets(nama_user, sizeof(nama_user), stdin);
+            nama_user[strcspn(nama_user, "\n")] = 0; // Menghapus newline karakter jika ada
+
+            int id_buku = cariIDBuku(nama_user);
+            if (id_buku == -1)
+            {
+                printf("Nama pengguna tidak ditemukan dalam riwayat peminjaman.\n");
+            }
+            else
+            {
+                printf("ID Buku yang dipinjam oleh %s adalah: %d\n", nama_user, id_buku);
+            }
+            break;
+
+        case 3:
+            printf("Terima kasih! Program selesai.\n");
+            break;
+
+        default:
+            printf("Pilihan tidak valid! Silakan pilih antara 1-3.\n");
+            break;
+        }
+    } while (pilihan != 3);
 
     return 0;
 }
