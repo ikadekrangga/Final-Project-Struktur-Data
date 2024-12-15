@@ -62,9 +62,9 @@ int main() {
         if (file == NULL) {
         printf("Error opening file!\n");
         return 1;
-    }
-    fprintf(file, "%s, %d\n", nama_user, id_buku);
-    fclose(file);
+        }
+        fprintf(file, "%s, %d\n", nama_user, id_buku);
+        fclose(file);
 
     if (stock <= 0) {
         printf("Buku tidak ada\n");
