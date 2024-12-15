@@ -58,12 +58,12 @@ int main() {
     printf("ID buku yang mau dipinjam: ");
     scanf("%d", &id_buku);
 
-        FILE *file = fopen("user_list.txt", "a");
+        FILE *file = fopen("data.csv", "a");
     if (file == NULL) {
         printf("Error opening file!\n");
         return 1;
     }
-    fprintf(file, "%s %d\n", nama_user, id_buku);
+    fprintf(file, "%s (%d),\n", nama_user, id_buku);
     fclose(file);
 
     if (stock <= 0) {
