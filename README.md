@@ -24,7 +24,17 @@ Anggota Kelompok:
 |Double Linked List (Riwayat Peminjaman)|Status|
 |----------------------------|------|
 |SALSABILLA NUHAA AINI       |[Selesai](https://github.com/CATSSRIN/Final-Project-Struktur-Data/blob/main/Pembagian%20Tugas/riwayat/riwayat%20peminjaman.c)|
- 
+
+## Progress Main Code
+|Menu|Status|
+|------|------|
+|Cari buku| Selesai |
+|Pilih buku|  |
+|Pinjam buku|  |
+|Antrian|  |
+|Riwayat|  |
+|Kembalikan buku|  |
+
  ## Algoritma
  ```
 printf("Cari buku")
