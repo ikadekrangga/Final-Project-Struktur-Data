@@ -31,9 +31,12 @@ Node* createNode(const char* idBuku, const char* judulBuku, const char* penulis,
         fprintf(stderr, "Memory allocation failed\n");
         exit(1);
     }
-    strncpy(newNode->idBuku, idBuku, 10);
-    strncpy(newNode->judulBuku, judulBuku, 100);
-    strncpy(newNode->penulis, penulis, 50);
+    strncpy(newNode->idBuku, idBuku, sizeof(newNode->idBuku) - 1);
+    strncpy(newNode->judulBuku, judulBuku, sizeof(newNode->judulBuku) - 1);
+    strncpy(newNode->penulis, penulis, sizeof(newNode->penulis) - 1);
+    newNode->idBuku[sizeof(newNode->idBuku) - 1] = '\0';
+    newNode->judulBuku[sizeof(newNode->judulBuku) - 1] = '\0';
+    newNode->penulis[sizeof(newNode->penulis) - 1] = '\0';
     newNode->jumlahBuku = jumlahBuku;
     newNode->next = NULL;
     return newNode;
@@ -58,7 +61,7 @@ void readFile(const char* filename, Node** head) {
     FILE* file = fopen(filename, "r");
     if (!file) {
         fprintf(stderr, "Failed to open file: %s\n", filename);
-        exit(1);
+        return;
     }
 
     char line[256];
@@ -66,7 +69,6 @@ void readFile(const char* filename, Node** head) {
         char idBuku[10], judulBuku[100], penulis[50];
         int jumlahBuku;
 
-        // Parse the line using sscanf
         if (sscanf(line, "%9[^,],%99[^,],%49[^,],%d", idBuku, judulBuku, penulis, &jumlahBuku) == 4) {
             appendNode(head, idBuku, judulBuku, penulis, jumlahBuku);
         }
@@ -93,8 +95,10 @@ QueueNode* createQueueNode(const char* namaUser, const char* idBuku) {
         fprintf(stderr, "Memory allocation failed\n");
         exit(1);
     }
-    strncpy(newNode->namaUser, namaUser, 50);
-    strncpy(newNode->idBuku, idBuku, 10);
+    strncpy(newNode->namaUser, namaUser, sizeof(newNode->namaUser) - 1);
+    strncpy(newNode->idBuku, idBuku, sizeof(newNode->idBuku) - 1);
+    newNode->namaUser[sizeof(newNode->namaUser) - 1] = '\0';
+    newNode->idBuku[sizeof(newNode->idBuku) - 1] = '\0';
     newNode->next = NULL;
     return newNode;
 }
@@ -132,6 +136,14 @@ QueueNode* dequeue(Queue* q) {
     return temp;
 }
 
+// Function to free the queue
+void freeQueue(Queue* q) {
+    while (q->front != NULL) {
+        QueueNode* temp = dequeue(q);
+        free(temp);
+    }
+}
+
 // Function to return a book
 void returnBook(Queue* q, Node* bookList) {
     if (q->front == NULL) {
@@ -139,56 +151,16 @@ void returnBook(Queue* q, Node* bookList) {
         return;
     }
 
-    char idBuku[10];
-    printf("Enter the ID of the book to return: ");
-    scanf("%s", idBuku);
-
-    Node* book = searchById(bookList, idBuku);
-    if (!book) {
-        printf("Book with ID %s not found.\n", idBuku);
-        return;
-    }
-
     QueueNode* returnedNode = dequeue(q);
     if (returnedNode) {
-        if (strcmp(returnedNode->idBuku, idBuku) == 0) {
+        Node* book = searchById(bookList, returnedNode->idBuku);
+        if (book) {
             book->jumlahBuku++;
-            printf("Book %s (%s) has been returned by %s.\n", idBuku, book->judulBuku, returnedNode->namaUser);
-            free(returnedNode);
+            printf("Book %s (%s) has been returned by %s.\n", returnedNode->idBuku, book->judulBuku, returnedNode->namaUser);
         } else {
-            printf("Returned book ID does not match the current queue front.\n");
-            enqueue(q, returnedNode->namaUser, returnedNode->idBuku); // Put it back in the queue
-            free(returnedNode);
+            printf("Book with ID %s not found in the list.\n", returnedNode->idBuku);
         }
-    }
-}
-
-// Function to display the linked list
-void displayList(Node* head) {
-    if (head == NULL) {
-        printf("The book list is empty.\n");
-        return;
-    }
-
-    printf("-----------------------------------------------------------\n");
-    printf("ID Buku        Judul Buku                           Penulis           Jumlah Buku\n");
-    printf("-----------------------------------------------------------\n");
-
-    Node* temp = head;
-    while (temp != NULL) {
-        printf("%-12s %-35s %-15s %d\n", temp->idBuku, temp->judulBuku, temp->penulis, temp->jumlahBuku);
-        temp = temp->next;
-    }
-    printf("-----------------------------------------------------------\n");
-}
-
-// Function to free the linked list
-void freeList(Node* head) {
-    Node* temp;
-    while (head != NULL) {
-        temp = head;
-        head = head->next;
-        free(temp);
+        free(returnedNode);
     }
 }
 
@@ -219,17 +191,33 @@ int main() {
         }
 
         switch (choice) {
-            case 1:
-                displayList(bookList);
+            case 1: {
+                // Display all books
+                if (bookList == NULL) {
+                    printf("No books available in the library.\n");
+                } else {
+                    printf("\nList of Available Books:\n");
+                    printf("-----------------------------------------------------------\n");
+                    printf("ID Buku        Judul Buku                           Penulis           Jumlah Buku\n");
+                    printf("-----------------------------------------------------------\n");
+                    Node* temp = bookList;
+                    while (temp != NULL) {
+                        printf("%-12s %-35s %-15s %d\n", temp->idBuku, temp->judulBuku, temp->penulis, temp->jumlahBuku);
+                        temp = temp->next;
+                    }
+                    printf("-----------------------------------------------------------\n");
+                }
                 break;
-            case 2:
+            }
+            case 2: {
+                // Borrow a book
                 printf("Enter your name: ");
                 scanf(" %[^\n]", namaUser);
                 printf("Enter the ID of the book to borrow: ");
                 scanf("%s", idBuku);
 
                 Node* book = searchById(bookList, idBuku);
-                if (!book) {
+                if (book == NULL) {
                     printf("Book with ID %s not found.\n", idBuku);
                 } else if (book->jumlahBuku <= 0) {
                     printf("Book %s is out of stock.\n", book->judulBuku);
@@ -239,16 +227,26 @@ int main() {
                     printf("Book %s has been borrowed by %s.\n", book->judulBuku, namaUser);
                 }
                 break;
-            case 3:
+            }
+            case 3: {
+                // Return a book
                 returnBook(&borrowQueue, bookList);
                 break;
-            case 4:
-                freeList(bookList);
-                printf("Exiting program...\n");
+            }
+            case 4: {
+                // Exit the program
+                printf("Exiting program. Freeing memory...\n");
+                freeQueue(&borrowQueue);
+                Node* temp;
+                while (bookList != NULL) {
+                    temp = bookList;
+                    bookList = bookList->next;
+                    free(temp);
+                }
                 return 0;
+            }
             default:
                 printf("Invalid choice. Please try again.\n");
         }
     }
 }
-
