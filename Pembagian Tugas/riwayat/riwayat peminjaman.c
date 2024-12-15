@@ -2,16 +2,14 @@
 #include <string.h>
 #include <stdlib.h>
 
-// Struktur untuk node dalam Doubly Linked List
 typedef struct Node
 {
     char nama_user[50];
     char id_buku[10];
-    struct Node *next;
-    struct Node *prev;
+    struct Node *left;
+    struct Node *right;
 } Node;
 
-// Fungsi untuk menambahkan data ke dalam Doubly Linked List
 void tambahRiwayat(Node **head, Node **tail, const char *nama, const char *id)
 {
     Node *newNode = (Node *)malloc(sizeof(Node));
@@ -23,12 +21,12 @@ void tambahRiwayat(Node **head, Node **tail, const char *nama, const char *id)
 
     strcpy(newNode->nama_user, nama);
     strcpy(newNode->id_buku, id);
-    newNode->next = NULL;
-    newNode->prev = *tail;
+    newNode->right = NULL;
+    newNode->left = *tail;
 
     if (*tail != NULL)
     {
-        (*tail)->next = newNode;
+        (*tail)->right = newNode;
     }
     *tail = newNode;
 
@@ -38,7 +36,6 @@ void tambahRiwayat(Node **head, Node **tail, const char *nama, const char *id)
     }
 }
 
-// Fungsi untuk menampilkan seluruh riwayat peminjaman dengan format sejajar
 void tampilkanRiwayat(Node *head)
 {
     if (head == NULL)
@@ -56,11 +53,10 @@ void tampilkanRiwayat(Node *head)
     {
         // Menampilkan nama dan ID buku
         printf("%-30s %-10s\n", current->nama_user, current->id_buku);
-        current = current->next;
+        current = current->right;
     }
 }
 
-// Fungsi untuk mencari ID buku berdasarkan nama pengguna
 const char *cariIDBuku(Node *head, const char *nama)
 {
     Node *current = head;
@@ -70,12 +66,11 @@ const char *cariIDBuku(Node *head, const char *nama)
         {
             return current->id_buku;
         }
-        current = current->next;
+        current = current->right;
     }
     return NULL;
 }
 
-// Fungsi untuk memuat riwayat dari file CSV dan menyimpannya ke dalam DLL
 void loadRiwayat(Node **head, Node **tail)
 {
     FILE *file = fopen("user_list.csv", "r");
@@ -88,8 +83,7 @@ void loadRiwayat(Node **head, Node **tail)
     char nama[50];
     char id_buku_temp[10];
 
-    // Membaca file CSV dan menambahkan data ke DLL
-    while (fscanf(file, " %49[^,],%9s\n", nama, id_buku_temp) == 2)
+    while (fscanf(file, " %50[^,],%9s\n", nama, id_buku_temp) == 2)
     {
         tambahRiwayat(head, tail, nama, id_buku_temp);
     }
@@ -97,14 +91,13 @@ void loadRiwayat(Node **head, Node **tail)
     fclose(file);
 }
 
-// Fungsi untuk membersihkan memori DLL
 void freeList(Node *head)
 {
     Node *current = head;
     while (current != NULL)
     {
         Node *temp = current;
-        current = current->next;
+        current = current->right;
         free(temp);
     }
 }
@@ -129,7 +122,7 @@ int main()
         printf("3. Keluar\n");
         printf("Masukkan pilihan (1-3): ");
         scanf("%d", &pilihan);
-        getchar(); // Menghapus karakter newline dari buffer
+        getchar();
 
         switch (pilihan)
         {
@@ -140,7 +133,7 @@ int main()
         case 2:
             printf("Masukkan nama pengguna untuk mencari ID buku: ");
             fgets(input_nama, sizeof(input_nama), stdin);
-            input_nama[strcspn(input_nama, "\n")] = 0; // Menghapus newline di akhir input
+            input_nama[strcspn(input_nama, "\n")] = 0;
             id_buku_result = cariIDBuku(head, input_nama);
 
             if (id_buku_result == NULL)
