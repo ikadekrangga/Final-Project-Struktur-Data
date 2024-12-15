@@ -51,18 +51,20 @@ int main() {
     printf("Nama user: ");
     fgets(nama_user, sizeof(nama_user), stdin);
 
-    FILE *file = fopen("user_list.txt", "a");
+
+
+    nama_user[strcspn(nama_user, "\n")] = 0; // Remove newline character
+
+    printf("ID buku yang mau dipinjam: ");
+    scanf("%d", &id_buku);
+
+        FILE *file = fopen("user_list.txt", "a");
     if (file == NULL) {
         printf("Error opening file!\n");
         return 1;
     }
     fprintf(file, "%s %d\n", nama_user, id_buku);
     fclose(file);
-
-    nama_user[strcspn(nama_user, "\n")] = 0; // Remove newline character
-
-    printf("ID buku yang mau dipinjam: ");
-    scanf("%d", &id_buku);
 
     if (stock <= 0) {
         printf("Buku tidak ada\n");
