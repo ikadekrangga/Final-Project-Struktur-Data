@@ -1,5 +1,5 @@
 idBuku,judulBuku,penulis,jumlahBuku
-B001,Dasar-Dasar Pemrograman,John Doe,15
+B001,Dasar-Dasar Pemrograman,John Doe,0
 B002,Struktur Data dan Algoritma,Jane Smith,10
 B003,Pemrograman Berorientasi Objek,Robert Bro,8
 B004,Sistem Operasi,Alice Whit,12
@@ -29,3 +29,4 @@ B027,Pengembangan Aplikasi Mobile,William Yo,17
 B028,Keamanan Siber dan Etika,Lily Ander,13
 B029,Pengolahan Citra Digital,Grace Robi,8
 B030,Internet of Things (IoT),Matthew Ha,20
+B0031,as,as,40
