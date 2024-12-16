@@ -21,8 +21,6 @@ void initqueue(queue *q) {
 }
 
 void enqueue(queue *q, char nama_user[50], int id_buku) {
-
-    
     node *newNode = (node *)malloc(sizeof(node));
     if (newNode == NULL) {
         printf("Alokasi memori gagal!\n");
@@ -41,38 +39,77 @@ void enqueue(queue *q, char nama_user[50], int id_buku) {
     q->count++;
 }
 
+void displayQueue(queue *q) {
+    char buffer[255];
+    FILE *file = fopen("user_list.csv", "r");
+    if (file == NULL) {
+        printf("File error, tidak dapat ditemukan!\n");
+        return;
+    }
+    printf("Isi File 'user_list.csv':\n");
+    while (fgets(buffer, sizeof(buffer), file)) {
+        printf("%s", buffer);
+    }
+    fclose(file);
+}
+
 int main() {
     char nama_user[50];
     int id_buku;
-    int stock = 5; // Contoh stock buku
+    int stock = 5;
+    int choice;
     queue antrian;
     initqueue(&antrian);
 
-    printf("Nama user: ");
-    fgets(nama_user, sizeof(nama_user), stdin);
+    do {
+        printf("\nMenu Peminjaman:");
+        printf("\n1. Pinjam Buku");
+        printf("\n2. Tampilkan antrian");
+        printf("\n3. Keluar");
+        printf("\nPilih menu: ");
+        scanf("%d", &choice);
 
+        // Pastikan semua inisialisasi terjadi sebelum switch-case
+        switch (choice) {
+            case 1:
+                printf("Nama user: ");
+                getchar(); // Membersihkan newline
+                fgets(nama_user, sizeof(nama_user), stdin);
+                nama_user[strcspn(nama_user, "\n")] = 0;
 
+                printf("ID buku yang mau dipinjam: ");
+                scanf("%d", &id_buku);
 
-    nama_user[strcspn(nama_user, "\n")] = 0; // Remove newline character
+                // Membuka file di dalam case 1
+                FILE *file = fopen("user_list.csv", "a");
+                if (file == NULL) {
+                    printf("Error opening file!\n");
+                    break;
+                }
+                fprintf(file, "%s, %d\n", nama_user, id_buku);
+                fclose(file);
 
-    printf("ID buku yang mau dipinjam: ");
-    scanf("%d", &id_buku);
+                if (stock <= 0) {
+                    printf("Buku tidak tersedia.\n");
+                } else {
+                    enqueue(&antrian, nama_user, id_buku);
+                    stock--;
+                    printf("Antrian peminjaman: %d. %s\n", antrian.count, antrian.front->nama_user);
+                }
+                break;
 
-        FILE *file = fopen("user_list.csv", "a");
-        if (file == NULL) {
-        printf("Error opening file!\n");
-        return 1;
+            case 2:
+                displayQueue(&antrian);
+                break;
+
+            case 3:
+                printf("Keluar dari program.\n");
+                break;
+
+            default:
+                printf("Pilihan tidak valid.\n");
         }
-        fprintf(file, "%s, %d\n", nama_user, id_buku);
-        fclose(file);
+    } while (choice != 3);
 
-    if (stock <= 0) {
-        printf("Buku tidak ada\n");
-    } else {
-        enqueue(&antrian, nama_user, id_buku); // Pemanggilan fungsi yang benar
-        stock--;
-    }
-
-    printf("Antrian peminjaman: %d. %s\n",antrian.count, antrian.front->nama_user);
     return 0;
 }
