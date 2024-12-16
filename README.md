@@ -32,8 +32,8 @@ Anggota Kelompok:
 |Pilih buku|  |
 |Pinjam buku|  |
 |Antrian|  |
-|Riwayat|  |
-|Kembalikan buku| Selesai |
+|Riwayat| Selesai |
+|Kembalikan buku|  |
 
  ## Algoritma
  ```
